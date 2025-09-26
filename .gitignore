@@ -1,48 +1,34 @@
-__pycache__/
-
-# environment file
-config.env*
-!sample_config.env
-
-# Build folder
-bin/
-
-# file
-.DS_Store
-*.pyc
-*.log
-*.session
-*.session-journal
-downloads/
-
-# IDE specific files
-.idea/
-.vscode/
-*.sw*
-
-# Generated files
-CHANGELOG.md
-
-#
 # Binaries for programs and plugins
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
-
-# Test binary, built with `go test -c`
 *.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
-
-# Go workspace file
+# Go workspace files
 go.work
 go.work.sum
 
-# env file
+# Build output
+bin/
+
+# Logs and temp files
+*.log
+
+# Environment files
 .env
+config.env*
+!.env.sample
+
+# macOS and system files
+.DS_Store
+
+# IDE/editor specific
+.idea/
+.vscode/
+*.sw*
+
+# Downloads or generated artifacts
+downloads/

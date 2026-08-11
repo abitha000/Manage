@@ -22,3 +22,6 @@ downloads/
 
 # Generated files
 CHANGELOG.md
+
+# Lode session scraps
+lode/tmp/

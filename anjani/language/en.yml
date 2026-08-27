@@ -1,11 +1,24 @@
 #region Main
 start-pm: |
-  Hey there! my name is **{}**.
-  Any questions on how to use me? use /help
-  Join Our [Group](https://t.me/userbotindo) If You wanna Report Issue 🙂
-  I'm here to make your group management fun and easy!
-  **Managed With ❤️ By :** [UserbotIndo Team](https://t.me/userbotindo)
-  Wanna Add me to your Group? Just click the button below!
+  🌸 Hey there! I'm **{}**.
+
+  Welcome to my little corner of Telegram. 💗
+  I'm here to make your group **safer, cleaner & easier to manage.** 🛡️
+
+  ✨ **What can I do?**
+  • Protect your group from spam
+  • Manage members & restrictions
+  • Handle rules & moderation
+  • Welcome new members
+  • Manage notes and much more
+
+  💫 Need help?
+  Just tap **Help & Commands** to explore everything I can do.
+
+  🌷 Want me in your group?
+  Tap **Add to Group** below and let's get started!
+
+  **Managed by [SQ](https://t.me/devasena20) ❤️**
 help-pm: |
   Hello there! My name is **{}**.
   I'm a modular group management bot with a few fun extras! Have a look at the following for an idea of some of \
@@ -16,7 +29,7 @@ help-pm: |
   × /setlang: Change your language preference.
   × /donate: Get information on how to support me.
 
-  Anjani settings are also configurable on our dashboard, [click here](https://userbotindo.com/dashboard?ref=anjani) to open dashboard.
+  Priyanka settings are also configurable on our dashboard, [click here](https://t.me/devasena20) to open dashboard.
 privacy: You can find our privacy policy below.
 start-chat: Sending you a warm hi & wishing your day is a happy one!
 help-chat: Contact me in PM to get the list of possible commands.
@@ -28,7 +41,7 @@ dashboard-button: Dashboard
 back-button: ⬅️ Back
 donate: |
   Hi, glad to see you want to donate!
-  You can donate to us on [our site](https://userbotindo.com/donate?ref=anjani).
+  You can donate to us on [our site](https://t.me/devasena20).
   Our team is fully handled by volunteers,, and every little helps to improve our services.
   Thank you for your support!
 markdown-helper: |
@@ -293,8 +306,7 @@ language-help: |
   This bot comes up with multi language support.
   You can choose your language preference!\n
   **Available languages:**
-  - 🇺🇸 English.
-  - 🇮🇩 Indonesia.\n
+  - 🇺🇸 English.\n
   Commands:
   ×  /setlang | /lang | /language : set your preferred language.\n
   **Note**

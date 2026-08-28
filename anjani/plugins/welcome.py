@@ -77,6 +77,13 @@ class Greeting(plugin.Plugin):
         }
 
     async def on_chat_action(self, message: Message) -> None:
+        self.log.info(
+    "GREETING EVENT: chat=%s new_members=%s left_member=%s message_id=%s",
+    message.chat.id,
+    [u.id for u in message.new_chat_members] if message.new_chat_members else [],
+    message.left_chat_member.id if message.left_chat_member else None,
+    message.id,
+        )
         chat = message.chat
         reply_to = message.id
         if message.left_chat_member and message.left_chat_member.id == self.bot.uid:

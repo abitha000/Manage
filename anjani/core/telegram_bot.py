@@ -281,9 +281,22 @@ class TelegramBot(MixinBase):
             if name not in self._plugin_event_handlers:
 
                 async def event_handler(
-                    client: Client, event: EventType  # skipcq: PYL-W0613
-                ) -> None:
-                    await self.dispatch_event(name, event)
+    client: Client, event: EventType
+) -> None:
+    if name == "chat_action" and isinstance(event, Message):
+        self.log.info(
+            "CHAT ACTION RECEIVED | chat=%s | new_members=%s | left=%s | message_id=%s",
+            event.chat.id,
+            [u.id for u in event.new_chat_members]
+            if event.new_chat_members
+            else [],
+            event.left_chat_member.id
+            if event.left_chat_member
+            else None,
+            event.id,
+        )
+
+    await self.dispatch_event(name, event)
 
                 if filters is not None:
                     handler_info = (event_type(event_handler, filters), group)

@@ -110,7 +110,7 @@ class Greeting(plugin.Plugin):
             return await self._member_leave(message, reply_to, thread_id)
 
         async def on_chat_member_update(self, update: ChatMemberUpdated) -> None:
-        """Handle member joins through Telegram ChatMemberUpdated events."""
+              """Handle member joins through Telegram ChatMemberUpdated events."""
 
         if not update.chat or not update.new_chat_member:
             return

@@ -30,6 +30,7 @@ from typing import (
 
 from pyrogram.client import Client
 from pyrogram.enums.parse_mode import ParseMode
+from pyrogram.enums.chat_member_status import ChatMemberStatus
 from pyrogram.errors import (
     ChannelPrivate,
     ChatWriteForbidden,
@@ -37,7 +38,7 @@ from pyrogram.errors import (
     MessageDeleteForbidden,
     MessageEmpty,
 )
-from pyrogram.types import Chat, Message, User
+from pyrogram.types import Chat, ChatMemberUpdated, Message, User
 from pyrogram.types.messages_and_media.message import Str
 
 from anjani import command, filters, plugin, util
@@ -107,6 +108,118 @@ class Greeting(plugin.Plugin):
 
         if message.left_chat_member:
             return await self._member_leave(message, reply_to, thread_id)
+
+        async def on_chat_member_update(self, update: ChatMemberUpdated) -> None:
+        """Handle member joins through Telegram ChatMemberUpdated events."""
+
+        if not update.chat or not update.new_chat_member:
+            return
+
+        new_member = update.new_chat_member.user
+
+        old_status = (
+            update.old_chat_member.status
+            if update.old_chat_member
+            else None
+        )
+
+        new_status = update.new_chat_member.status
+
+        active_statuses = {
+            ChatMemberStatus.MEMBER,
+            ChatMemberStatus.ADMINISTRATOR,
+            ChatMemberStatus.OWNER,
+        }
+
+        # Ignore users who are not actually joining.
+        if new_status not in active_statuses:
+            return
+
+        # Ignore normal promotion/demotion/status changes.
+        if old_status in active_statuses:
+            return
+
+        chat = update.chat
+
+        # Check whether welcomes are enabled.
+        if not await self.is_welcome(chat.id):
+            return
+
+        # Bot itself was added.
+        if new_member.id == self.bot.uid:
+            await self.bot.client.send_message(
+                chat.id,
+                await self.text(chat.id, "bot-added"),
+            )
+            return
+
+        # Get this group's custom welcome.
+        text, button, msg_type, file_id = await self.welc_message(chat.id)
+
+        if not text:
+            text = await self.text(
+                chat.id,
+                "default-welcome",
+                noformat=True,
+            )
+
+        formatted_text = await self._build_text(
+            text,
+            new_member,
+            chat,
+            self.bot.client,
+        )
+
+        if button:
+            button = build_button(button)
+
+        msg_type = Types(msg_type) if msg_type else Types.TEXT
+
+        try:
+            if msg_type in {Types.TEXT, Types.BUTTON_TEXT}:
+                msg = await self.SEND[msg_type](
+                    chat.id,
+                    formatted_text,
+                    reply_markup=button,
+                    disable_web_page_preview=True,
+                )
+
+            elif msg_type in {Types.STICKER, Types.ANIMATION}:
+                msg = await self.SEND[msg_type](
+                    chat.id,
+                    file_id,
+                )
+
+            else:
+                msg = await self.SEND[msg_type](
+                    chat.id,
+                    file_id,
+                    caption=formatted_text,
+                    reply_markup=button,
+                )
+
+            if msg:
+                previous = await self.previous_welcome(
+                    chat.id,
+                    msg.id,
+                    False,
+                )
+
+                if previous:
+                    try:
+                        await self.bot.client.delete_messages(
+                            chat.id,
+                            previous,
+                        )
+                    except MessageDeleteForbidden:
+                        pass
+
+        except (
+            ChatWriteForbidden,
+            MediaEmpty,
+            MessageEmpty,
+        ):
+            pass
 
     async def _member_leave(
         self, message: Message, reply_to: int, thread_id: Optional[int]

@@ -475,7 +475,6 @@ class Greeting(plugin.Plugin):
         )
         return data.get("prev_gdby", None) if data else None
 
-    @command.filters(filters.admin_only)
     async def cmd_setwelcome(self, ctx: command.Context) -> str:
         """Set chat welcome message"""
         chat = ctx.chat
